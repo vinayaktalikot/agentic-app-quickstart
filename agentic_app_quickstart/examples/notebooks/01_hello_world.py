@@ -12,9 +12,10 @@ def _(mo):
 
 @app.cell
 def _():
-    from agents import Agent, Runner, set_tracing_disabled
-    from agentic_app_quickstart.examples.helpers import get_model
     import marimo as mo
+    from agents import Agent, Runner, set_tracing_disabled
+
+    from agentic_app_quickstart.examples.helpers import get_model
 
     set_tracing_disabled(True)
     return Agent, Runner, get_model, mo
@@ -22,16 +23,13 @@ def _():
 
 @app.cell
 def _(Agent, get_model):
-    agent = Agent(
-        name = "My hello world agent",
-        model=get_model()
-    )
+    agent = Agent(name="My hello world agent", model=get_model())
     return (agent,)
 
 
 @app.cell
 async def _(Runner, agent):
-    result = await Runner.run(starting_agent = agent, input = "hello")
+    result = await Runner.run(starting_agent=agent, input="hello")
     return (result,)
 
 
