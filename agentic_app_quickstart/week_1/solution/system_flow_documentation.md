@@ -1,6 +1,6 @@
-# system flow documentation: how the csv analysis system works
+# System flow documentation: how the csv analysis system works
 
-## system architecture overview
+## System architecture overview
 
 the csv analysis system uses a multi-agent architecture with specialized agents that handle different types of requests:
 
@@ -9,13 +9,13 @@ user input → coordinator agent → specialized agent → response
                 ↓
         memory & context management
                 ↓
-        agent handoffs & coordination
+        seamless agent handoffs & coordination
 ```
 
-## agent roles and responsibilities
+## Agent roles and responsibilities
 
-### coordinator agent
-- **primary role**: main system coordinator and entry point
+### Coordinator agent
+- main system coordinator and entry point
 - **responsibilities**: 
   - understand user requests
   - route to appropriate specialized agents
@@ -48,8 +48,8 @@ user input → coordinator agent → specialized agent → response
 ### communication agent
 - **primary role**: user guidance and explanation
 - **responsibilities**:
-  - explain results in user-friendly language
-  - suggest follow-up questions
+  - explain results in user friendly language
+  - suggest follow up questions
   - provide guidance and help
   - translate technical findings
 - **tools**: question suggestions, guidance tools
@@ -145,7 +145,7 @@ user input → coordinator agent → specialized agent → response
 
 ## memory and context management
 
-### session-based memory
+### session based memory
 - **persistence**: conversations are stored in sqlite database
 - **context awareness**: agents remember previous questions and loaded datasets
 - **follow-up support**: users can ask "what about the median?" after asking about averages
@@ -180,17 +180,70 @@ scenario: user asks about sales data, then asks about employee data
 3. system suggests: "please load the employee_data.csv file first"
 ```
 
-### how to handle multiple datasets
+## improved agent handoff system
+
+### seamless handoffs with automatic question forwarding
+
+the system now implements intelligent agent handoffs that automatically forward user questions:
 
 ```
-workflow for analyzing multiple datasets:
+1. user: "i want to load employee_data"
+   coordinator: "for this, ask the data loader agent"
+   system: "handing over to DataLoaderAgent"
+   dataloader: "the csv file 'employee_data.csv' has been successfully loaded..."
 
-1. load first dataset: "load sample_sales.csv"
-2. ask questions about sales data
-3. load second dataset: "load employee_data.csv"
-4. ask questions about employee data
-5. return to first dataset: "load sample_sales.csv"
-6. continue sales analysis
+2. user: "what is the average salary?"
+   dataloader: "for this type of request, you should ask the analytics agent"
+   system: "handing over to AnalyticsAgent"
+   analytics: "the average salary is $73,466.67..."
+
+3. user: "suggest some questions i can ask"
+   analytics: "for guidance and suggestions, ask the communication agent"
+   system: "handing over to CommunicationAgent"
+   communication: "here are some interesting questions you can ask..."
+```
+
+### key improvements in handoff system
+
+1. **automatic question forwarding**: after a handoff, the user's question is automatically processed by the new agent
+2. **clean handoff messages**: simple "handing over to [AgentName]" without verbose explanations
+3. **seamless user experience**: users don't need to repeat their questions after handoffs
+4. **intelligent routing**: agents automatically redirect specialized requests to appropriate agents
+5. **natural conversation flow**: handoffs happen invisibly in the background
+
+### handoff detection logic
+
+the system detects handoff intent by parsing agent responses for keywords:
+
+- **data loader keywords**: "data loader", "file", "load"
+- **analytics keywords**: "analytics", "analysis", "calculation"
+- **communication keywords**: "communication", "guidance", "help"
+- **coordinator keywords**: "coordinator", "general"
+
+### example handoff scenarios
+
+#### file operation handoff
+```
+user: "load sample_sales.csv"
+coordinator: "for this, ask the data loader agent"
+handing over to DataLoaderAgent
+dataloader: "the csv file 'sample_sales.csv' has been successfully loaded..."
+```
+
+#### analysis handoff
+```
+user: "what are the correlations between price and quantity?"
+dataloader: "for this type of request, you should ask the analytics agent"
+handing over to AnalyticsAgent
+analytics: "the correlation between price and quantity is -0.23..."
+```
+
+#### guidance handoff
+```
+user: "what should i ask next about this data?"
+analytics: "for guidance and suggestions, ask the communication agent"
+handing over to CommunicationAgent
+communication: "here are some interesting questions you can ask..."
 ```
 
 ## error handling and user guidance
@@ -268,4 +321,4 @@ system: "numeric columns available: price, quantity"
 4. **export capabilities**: save analysis results and reports
 5. **batch processing**: analyze multiple files in sequence
 
-this documentation provides a comprehensive understanding of how the system processes different types of questions, manages context, and handles the single-file limitation while maintaining a powerful and user-friendly analysis experience. 
+this documentation provides a comprehensive understanding of how the system processes different types of questions, manages context, handles the single-file limitation, and implements seamless agent handoffs while maintaining a powerful and user-friendly analysis experience. 

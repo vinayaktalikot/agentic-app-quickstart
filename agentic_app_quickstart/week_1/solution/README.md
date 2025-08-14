@@ -46,8 +46,33 @@ the system consists of four specialized agents:
 - natural language interface
 - helpful error messages and guidance
 - command shortcuts (load, help, agents, quit)
-- seamless agent handoffs
+- **seamless agent handoffs with automatic question forwarding**
 - persistent conversation memory
+
+## improved agent handoff system
+
+### seamless handoffs
+the system now implements intelligent agent handoffs that automatically forward user questions:
+
+```
+user: "load employee_data"
+coordinator: "for this, ask the data loader agent"
+handing over to DataLoaderAgent
+dataloader: "the csv file 'employee_data.csv' has been successfully loaded..."
+```
+
+### key improvements
+1. **automatic question forwarding**: after a handoff, your question is automatically processed by the new agent
+2. **clean handoff messages**: simple "handing over to [AgentName]" without verbose explanations
+3. **seamless user experience**: users don't need to repeat their questions after handoffs
+4. **intelligent routing**: agents automatically redirect specialized requests to appropriate agents
+5. **natural conversation flow**: handoffs happen invisibly in the background
+
+### handoff detection
+the system automatically detects when an agent wants to hand off by parsing responses for keywords:
+- **data loader**: "data loader", "file", "load"
+- **analytics**: "analytics", "analysis", "calculation"
+- **communication**: "communication", "guidance", "help"
 
 ## how to run
 
@@ -70,7 +95,7 @@ the system consists of four specialized agents:
 3. run the system:
    ```bash
    cd week_1/solution
-   python -m main
+   uv run python main.py
    ```
 
 ### usage examples
@@ -88,6 +113,19 @@ the system consists of four specialized agents:
 - "are there any outliers in the salary column?"
 - "what are the correlations between numeric columns?"
 - "suggest some questions i can ask"
+
+#### seamless handoff examples
+```
+user: load employee_data
+coordinator: for this, ask the data loader agent
+handing over to DataLoaderAgent
+dataloader: the csv file 'employee_data.csv' has been successfully loaded...
+
+user: what is the average salary?
+dataloader: for this type of request, you should ask the analytics agent
+handing over to AnalyticsAgent
+analytics: the average salary is $73,466.67...
+```
 
 #### follow-up conversations
 ```
@@ -113,16 +151,34 @@ the system provides 10 function tools:
 9. `suggest_questions` - intelligent suggestions
 
 ### agent coordination
-- agents can hand off to each other based on user needs
-- coordinator agent manages overall system flow
-- specialized agents focus on their domains
-- seamless transitions maintain conversation context
+- **intelligent handoffs**: agents automatically redirect specialized requests to appropriate agents
+- **automatic question forwarding**: user questions are seamlessly forwarded after handoffs
+- **coordinator management**: coordinator agent manages overall system flow
+- **specialized expertise**: each agent focuses on their domain for optimal results
+- **seamless transitions**: handoffs maintain conversation context without interruption
 
 ### memory management
 - sqlite-based session storage
 - persistent conversation history
 - context-aware responses
 - dataset memory across interactions
+
+## testing and quality assurance
+
+### test suite
+the system includes a comprehensive test suite:
+- **basic functionality tests**: verify file loading, data analysis, and system initialization
+- **makefile integration**: professional development workflow with linting, formatting, and testing
+- **quality checks**: automated code quality, formatting, and testing pipeline
+
+### development tools
+```bash
+make test          # run all tests
+make lint          # check code quality
+make format        # format code with black
+make quality       # run all quality checks
+make dev           # complete development cycle
+```
 
 ## sample datasets
 
@@ -134,11 +190,12 @@ the system includes three sample datasets for testing:
 
 ## challenges overcome
 
-1. **version compatibility**: resolved openai sdk version conflicts by updating to 1.100.0+
-2. **agent coordination**: implemented seamless handoffs between specialized agents
+1. **version compatibility**: resolved openai sdk version conflicts by updating to 1.99.5+
+2. **agent coordination**: implemented seamless handoffs with automatic question forwarding
 3. **memory persistence**: integrated session-based memory for context continuity
 4. **error handling**: robust error handling with user-friendly messages
 5. **data validation**: comprehensive csv validation and data type detection
+6. **user experience**: eliminated need for users to repeat questions after handoffs
 
 ## learning outcomes
 
@@ -146,8 +203,9 @@ this implementation demonstrates:
 - practical multi-agent system design
 - function calling and tool integration
 - session-based memory management
-- agent handoffs and coordination
+- **intelligent agent handoffs with automatic routing**
 - advanced data analysis capabilities
 - user experience design for non-technical users
+- professional testing and development practices
 
-the system successfully achieves all assignment requirements while providing a professional, scalable architecture that can be extended with additional agents and capabilities.
+the system successfully achieves all assignment requirements while providing a professional, scalable architecture with seamless agent handoffs that ensure users always get expert help from the right specialized agent.
