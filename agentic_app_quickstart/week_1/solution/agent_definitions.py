@@ -14,7 +14,6 @@ from tools import (
 
 
 def create_data_loader_agent():
-    """create the data loader agent responsible for file operations"""
     return Agent(
         name="DataLoaderAgent",
         instructions="""you are the data loader agent. you handle csv file operations.

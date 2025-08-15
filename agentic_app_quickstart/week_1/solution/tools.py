@@ -11,7 +11,6 @@ class CSVDataManager:
         self.current_dataset = None
 
     def load_csv_file(self, file_path: str) -> Dict[str, Any]:
-        """load and validate a csv file, returning dataset info"""
         try:
             if not os.path.exists(file_path):
                 return {"error": f"file not found: {file_path}"}
@@ -38,7 +37,6 @@ class CSVDataManager:
             return {"error": f"failed to load csv: {str(e)}"}
 
     def get_column_names(self) -> Dict[str, Any]:
-        """get column names from the currently loaded dataset"""
         if not self.current_dataset:
             return {"error": "no dataset loaded"}
 
@@ -46,7 +44,6 @@ class CSVDataManager:
         return {"columns": list(df.columns), "total_columns": len(df.columns)}
 
     def get_column_info(self, column_name: str) -> Dict[str, Any]:
-        """get detailed information about a specific column"""
         if not self.current_dataset:
             return {"error": "no dataset loaded"}
 
@@ -256,7 +253,6 @@ data_manager = CSVDataManager()
 
 @function_tool
 def load_csv_file(file_path: str) -> str:
-    """load a csv file into the system for analysis"""
     result = data_manager.load_csv_file(file_path)
     if "error" in result:
         return f"error: {result['error']}"
@@ -265,7 +261,6 @@ def load_csv_file(file_path: str) -> str:
 
 @function_tool
 def get_column_names() -> str:
-    """get all column names from the currently loaded dataset"""
     result = data_manager.get_column_names()
     if "error" in result:
         return f"error: {result['error']}"
@@ -274,7 +269,6 @@ def get_column_names() -> str:
 
 @function_tool
 def get_column_info(column_name: str) -> str:
-    """get detailed information about a specific column"""
     result = data_manager.get_column_info(column_name)
     if "error" in result:
         return f"error: {result['error']}"
@@ -297,7 +291,6 @@ def get_column_info(column_name: str) -> str:
 
 @function_tool
 def calculate_column_average(column_name: str) -> str:
-    """calculate the average value of a numeric column"""
     result = data_manager.calculate_column_average(column_name)
     if "error" in result:
         return f"error: {result['error']}"
@@ -306,7 +299,6 @@ def calculate_column_average(column_name: str) -> str:
 
 @function_tool
 def count_rows_with_value(column_name: str, value: str) -> str:
-    """count how many rows contain a specific value in a column"""
     result = data_manager.count_rows_with_value(column_name, value)
     if "error" in result:
         return f"error: {result['error']}"
@@ -315,7 +307,6 @@ def count_rows_with_value(column_name: str, value: str) -> str:
 
 @function_tool
 def find_correlations() -> str:
-    """find correlations between numeric columns in the dataset"""
     result = data_manager.find_correlations()
     if "error" in result:
         return f"error: {result['error']}"
@@ -328,7 +319,6 @@ def find_correlations() -> str:
 
 @function_tool
 def detect_outliers(column_name: str, threshold: float = 2.0) -> str:
-    """detect statistical outliers in a numeric column"""
     result = data_manager.detect_outliers(column_name, threshold)
     if "error" in result:
         return f"error: {result['error']}"
@@ -341,7 +331,6 @@ def detect_outliers(column_name: str, threshold: float = 2.0) -> str:
 
 @function_tool
 def group_by_column(group_column: str, agg_column: str, agg_function: str = "mean") -> str:
-    """group data by one column and aggregate another column"""
     result = data_manager.group_by_column(group_column, agg_column, agg_function)
     if "error" in result:
         return f"error: {result['error']}"
@@ -357,7 +346,6 @@ def group_by_column(group_column: str, agg_column: str, agg_function: str = "mea
 
 @function_tool
 def suggest_questions() -> str:
-    """suggest relevant questions to ask about the dataset"""
     result = data_manager.suggest_questions()
     if "error" in result:
         return f"error: {result['error']}"

@@ -4,7 +4,6 @@ import pandas as pd
 
 
 class TestBasicFunctionality(unittest.TestCase):
-
     def test_data_files_exist(self):
         """test that sample data files exist"""
         data_dir = "data"
@@ -23,8 +22,8 @@ class TestBasicFunctionality(unittest.TestCase):
 
         if os.path.exists(employee_file):
             df = pd.read_csv(employee_file)
-            self.assertEqual(df.shape[0], 15)  # 15 rows
-            self.assertEqual(df.shape[1], 5)  # 5 columns
+            self.assertEqual(df.shape[0], 15)
+            self.assertEqual(df.shape[1], 5)
 
             expected_columns = ["name", "department", "salary", "hire_date", "performance_score"]
             actual_columns = list(df.columns)

@@ -1,41 +1,49 @@
-# csv data analysis agent system
+# CSV data analysis agent system
 
-## architecture overview
+## Quick Access Documentation
 
-this system implements a multi-agent architecture for intelligent csv data analysis, achieving all three bonus levels from the assignment requirements.
+- [Question Examples](question_examples.md) - example questions to test the system
+- [System Flow Documentation](system_flow_documentation.md) - detailed architecture and handoff logic
+- [Screenshots Documentation](docs/screenshots_documentation.md) - visual proof of system functionality
 
-### multi-agent system (bronze level)
+---
+
+## Architecture overview
+
+This system implements a multi-agent architecture for intelligent csv data analysis, achieving all three bonus levels from the assignment requirements.
+
+### multi-agent system
 
 the system consists of four specialized agents:
 
-- **coordinator agent**: main system coordinator that manages handoffs and coordinates other agents
-- **data loader agent**: handles csv file operations, validation, and data preparation
-- **analytics agent**: performs statistical analysis, calculations, and pattern detection
-- **communication agent**: provides user guidance, explanations, and suggests analysis approaches
+- **coordinator agent** -- main system coordinator that manages handoffs and coordinates other agents
+- **data loader agent** -- handles csv file operations, validation, and data preparation
+- **analytics agent** -- performs statistical analysis, calculations, and pattern detection
+- **communication agent** -- provides user guidance, explanations, and suggests analysis approaches
 
-### memory system (silver level)
+### Memory system
 
-- **session-based memory**: uses sqlitesession to maintain conversation context across interactions
-- **context awareness**: agents remember loaded datasets and previous questions
-- **follow-up support**: users can ask follow-up questions like "what about the median?" after asking about averages
+- **session-based memory** - uses sqlitesession to maintain conversation context across interactions
+- **context awareness** - agents remember loaded datasets and previous questions
+- **follow-up support** - users can ask follow-up questions like "what about the median?" after asking about averages
 
-### advanced analytics (gold level)
+### Advanced analytics 
 
-- **smart data insights**: automatic pattern detection and correlation analysis
-- **outlier detection**: statistical outlier detection using z-score method
-- **grouped analysis**: flexible grouping and aggregation capabilities
-- **intelligent suggestions**: ai-powered question suggestions based on data characteristics
+- **smart data insights** - automatic pattern detection and correlation analysis
+- **outlier detection** - statistical outlier detection using z-score method
+- **grouped analysis** -  flexible grouping and aggregation capabilities
+- **intelligent suggestions** - ai-powered question suggestions based on data characteristics
 
-## features
+## Features
 
-### core functionality
+### Core functionality
 - csv file loading and validation
 - column information and data type detection
 - basic statistical calculations (mean, median, min, max, std dev)
 - data filtering and counting
-- error handling and graceful degradation
+- error handling
 
-### advanced capabilities
+### Advanced capabilities
 - correlation analysis between numeric columns
 - statistical outlier detection
 - grouped analysis with multiple aggregation functions
@@ -43,30 +51,23 @@ the system consists of four specialized agents:
 - multi-file support and dataset management
 
 ### user experience
-- natural language interface
-- helpful error messages and guidance
+- natural language CLI interface
+- helpful error messages 
 - command shortcuts (load, help, agents, quit)
 - **seamless agent handoffs with automatic question forwarding**
 - persistent conversation memory
+- clean visual interface with text emoticons and message separators
 
-## improved agent handoff system
+## Improved agent handoff system
 
 ### seamless handoffs
 the system now implements intelligent agent handoffs that automatically forward user questions:
 
 ```
 user: "load employee_data"
-coordinator: "for this, ask the data loader agent"
 handing over to DataLoaderAgent
 dataloader: "the csv file 'employee_data.csv' has been successfully loaded..."
 ```
-
-### key improvements
-1. **automatic question forwarding**: after a handoff, your question is automatically processed by the new agent
-2. **clean handoff messages**: simple "handing over to [AgentName]" without verbose explanations
-3. **seamless user experience**: users don't need to repeat their questions after handoffs
-4. **intelligent routing**: agents automatically redirect specialized requests to appropriate agents
-5. **natural conversation flow**: handoffs happen invisibly in the background
 
 ### handoff detection
 the system automatically detects when an agent wants to hand off by parsing responses for keywords:
@@ -74,7 +75,7 @@ the system automatically detects when an agent wants to hand off by parsing resp
 - **analytics**: "analytics", "analysis", "calculation"
 - **communication**: "communication", "guidance", "help"
 
-## how to run
+## How to run ?
 
 ### prerequisites
 - python 3.11 or higher
@@ -114,29 +115,7 @@ the system automatically detects when an agent wants to hand off by parsing resp
 - "what are the correlations between numeric columns?"
 - "suggest some questions i can ask"
 
-#### seamless handoff examples
-```
-user: load employee_data
-coordinator: for this, ask the data loader agent
-handing over to DataLoaderAgent
-dataloader: the csv file 'employee_data.csv' has been successfully loaded...
-
-user: what is the average salary?
-dataloader: for this type of request, you should ask the analytics agent
-handing over to AnalyticsAgent
-analytics: the average salary is $73,466.67...
-```
-
-#### follow-up conversations
-```
-user: what is the average price?
-agent: average price: 299.99
-
-user: what about the median?
-agent: median price: 159.99
-```
-
-## technical implementation
+## Technical implementation
 
 ### tools and functions
 the system provides 10 function tools:
@@ -165,13 +144,13 @@ the system provides 10 function tools:
 
 ## testing and quality assurance
 
-### test suite
-the system includes a comprehensive test suite:
-- **basic functionality tests**: verify file loading, data analysis, and system initialization
-- **makefile integration**: professional development workflow with linting, formatting, and testing
-- **quality checks**: automated code quality, formatting, and testing pipeline
+### Test suite
+The system includes a test suite:
+- Verify file loading, data analysis, and system initialization
+- Development workflow with linting, formatting, and testing
+- Automated code quality, formatting, and testing pipeline
 
-### development tools
+### Development tools
 ```bash
 make test          # run all tests
 make lint          # check code quality
@@ -179,33 +158,3 @@ make format        # format code with black
 make quality       # run all quality checks
 make dev           # complete development cycle
 ```
-
-## sample datasets
-
-the system includes three sample datasets for testing:
-
-- **sample_sales.csv**: e-commerce sales data with date, product, price, quantity, customer_state
-- **employee_data.csv**: hr dataset with name, department, salary, hire_date, performance_score
-- **weather_data.csv**: weather measurements with date, temperature, humidity, precipitation, city
-
-## challenges overcome
-
-1. **version compatibility**: resolved openai sdk version conflicts by updating to 1.99.5+
-2. **agent coordination**: implemented seamless handoffs with automatic question forwarding
-3. **memory persistence**: integrated session-based memory for context continuity
-4. **error handling**: robust error handling with user-friendly messages
-5. **data validation**: comprehensive csv validation and data type detection
-6. **user experience**: eliminated need for users to repeat questions after handoffs
-
-## learning outcomes
-
-this implementation demonstrates:
-- practical multi-agent system design
-- function calling and tool integration
-- session-based memory management
-- **intelligent agent handoffs with automatic routing**
-- advanced data analysis capabilities
-- user experience design for non-technical users
-- professional testing and development practices
-
-the system successfully achieves all assignment requirements while providing a professional, scalable architecture with seamless agent handoffs that ensure users always get expert help from the right specialized agent.
