@@ -1,5 +1,5 @@
 from agents import Agent, SQLiteSession
-from helpers import get_model
+from agentic_app_quickstart.examples.helpers import get_model
 from tools import (
     load_csv_file,
     get_column_names,
